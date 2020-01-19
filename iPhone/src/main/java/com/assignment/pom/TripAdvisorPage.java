@@ -33,9 +33,11 @@ public class TripAdvisorPage implements IAutoconstant {
     @FindBy (xpath=("//input[@id='ReviewTitle']")) private WebElement reviewTitle;
     @FindBy (xpath=(" //textarea[@id='ReviewText']")) private WebElement yourReview;
     @FindBy (xpath=(" (//div[@class='labelHeader'])[3]")) private WebElement hotelRating;
-    @FindBy (xpath=(" (//span[@id='qid12_bubbles']")) private WebElement serviceRating;
-    @FindBy (xpath=(" (//span[@id='qid11_bubbles']")) private WebElement roomsRating;
-    @FindBy (xpath=(" //span[@id='qid190_bubbles']")) private WebElement sleepQuality;
+    @FindBy(xpath = "//div[text()='Hotel Ratings']") private WebElement ratingScroll;
+	
+    @FindBy (xpath=(" //span[(@id='qid12_bubbles']")) private WebElement serviceRating;
+    @FindBy (xpath=(" (//span[(@id='qid11_bubbles']")) private WebElement roomsRating;
+    @FindBy (xpath=(" //span[(@id='qid47_bubbles']")) private WebElement sleepQuality;
     @FindBy (xpath=(" //div[@id='SUBMIT']")) private WebElement submit;
   
     /* initializing and launch the url*/
@@ -94,7 +96,8 @@ public class TripAdvisorPage implements IAutoconstant {
 		overAllRating.click();
 		reviewTitle.sendKeys("The rooms are large and ecofriendly");
 		yourReview.sendKeys("Good hospitality");
-		
+		common.scroll(driver,ratingScroll);
+		//common.scroll(driver, serviceRating);
 		act.moveToElement(serviceRating ).perform();
 		serviceRating.click();
 		act.moveToElement(roomsRating).perform();
