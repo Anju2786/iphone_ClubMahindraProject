@@ -26,9 +26,10 @@ public class TripAdvisorPage implements IAutoconstant {
     
     @FindBy(xpath=("//span[@class='brand-global-nav-action-search-Search__label--3PRUD']")) private WebElement search;
     @FindBy(id = "mainSearch") private WebElement mainSearch;
-    @FindBy (xpath=("//a[@class='review_count']")) private WebElement review; 
+    @FindBy (xpath=("(//div[@class='result-title'])[1]")) private WebElement hotel; 
     @FindBy (xpath=("//a[@class='ui_button primary']")) private WebElement writeReview;
-    @FindBy (xpath=("//span[@data-value='5']")) private WebElement overAllRating;
+    @FindBy (xpath=("//span[@id='bubble_rating']")) private WebElement overAllRating;
+   // @FindBy (xpath=("//span[@data-value='5']")) private WebElement overAllRating;
     @FindBy (xpath=("//input[@id='ReviewTitle']")) private WebElement reviewTitle;
     @FindBy (xpath=(" //textarea[@id='ReviewText']")) private WebElement yourReview;
     @FindBy (xpath=(" (//div[@class='labelHeader'])[3]")) private WebElement hotelRating;
@@ -63,22 +64,32 @@ public class TripAdvisorPage implements IAutoconstant {
 		WebDriverWait wait = new WebDriverWait(driver, 20);
 		wait.until(ExpectedConditions.elementToBeClickable(mainSearch));
 		mainSearch.sendKeys("Club Mahindra",Keys.ENTER);
-		common.waitForElemnetToAppear(review);
-		review.click();
+		common.waitForPageToLoad();
+	     hotel.click();
 		
 		
     }
     /**
      * passing review 
+     * @throws Throwable  
      */
    
-	public void searchForReview() {
-		common.scroll(driver,writeReview);
-		common.switchWindow();
-		writeReview.click();
-		common.switchWindow(driver, "Write a review");
+	public void searchForReview() throws Throwable {
+		common.switchToChildWindow();
 		common.waitForPageToLoad();
+		
 		Actions act=new Actions(driver);
+		act.moveToElement(writeReview ).perform();
+		
+		
+		writeReview.click();
+		common.switchWindow();
+		
+		
+		common.waitForPageToLoad();
+		common.switchWindow(driver, "Write a review");
+	 	common.waitForPageToLoad();
+	
 		act.moveToElement(overAllRating ).perform();
 		overAllRating.click();
 		reviewTitle.sendKeys("The rooms are large and ecofriendly");
@@ -92,7 +103,7 @@ public class TripAdvisorPage implements IAutoconstant {
 		sleepQuality.click();
 		common.scroll(driver, submit);
 		submit.click();
-	}
+ }
 	
 	
 	}
